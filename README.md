@@ -15,5 +15,6 @@ Lehrbeauftrage: Prof. Dr. Philipp Schaer, Fabian Haak
     Das Semesterprojekt befasste sich mit Problemstellungen, welche zunächst mit verschiedenen Papers den verschiedenen Gruppen zur Auswahl standen. Die Gruppe um Melanie Fumfack, Kai Gehlen, und Pia Störmer beschäftigte sich mit der Problemstellung von Gender Bias in Suchmaschinen.
     
 ### Voraussetzungen
+- Python 3.7
 - requirements.txt
 
