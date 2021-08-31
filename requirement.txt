@@ -1,0 +1,14 @@
+pandas
+modin
+dask
+distributed
+nltk
+HanTa
+genderize
+re
+glob
+gensim
+scikit-learn
+matplotlib
+seaborn 
+scipy 
