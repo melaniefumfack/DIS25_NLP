@@ -16,4 +16,3 @@ Das Semesterprojekt befasste sich mit Problemstellungen, welche zunächst mit ve
 ### Voraussetzungen
 - requirements.txt
 
-

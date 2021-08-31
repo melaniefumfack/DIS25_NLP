@@ -5,46 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 
-class autovivify_list(dict):
-  '''A pickleable version of collections.defaultdict'''
-  def __missing__(self, key):
-    '''Given a missing key, set initial value to an empty list'''
-    value = self[key] = []
-    return value
-
-  def __add__(self, x):
-    '''Override addition for numeric types when self is empty'''
-    if not self and isinstance(x, Number):
-      return x
-    raise ValueError
-
-  def __sub__(self, x):
-    '''Also provide subtraction method'''
-    if not self and isinstance(x, Number):
-      return -1 * x
-    raise ValueError
-
-def build_word_vector_matrix(vector_file, label_file, n_words):
-    '''Return the vectors and labels for the first n_words in vector file'''
-    numpy_arrays = []
-    labels_array = []
-    for c, v in enumerate(label_file):
-        labels_array.append(v)
-        numpy_arrays.append(vector_file[c])
-
-        if c == n_words:
-            return np.array( numpy_arrays ), labels_array
-
-    return np.array( numpy_arrays ), labels_array
-
-
-def find_word_clusters(labels_array, cluster_labels):
-  '''Return the set of words in each cluster'''
-  cluster_to_words = autovivify_list()
-  for c, i in enumerate(cluster_labels):
-    cluster_to_words[ i ].append(labels_array[c] )
-  return cluster_to_words
-
+# code adaption from
+# https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
 def silhouette_analysis(X: np.array, min_clusters:int,max_clusters:int):
     for n_clusters in range(min_clusters, max_clusters):
         # Create a subplot with 1 row and 2 columns
@@ -61,7 +23,7 @@ def silhouette_analysis(X: np.array, min_clusters:int,max_clusters:int):
 
         # Initialize the clusterer with n_clusters value and a random generator
         # seed of 10 for reproducibility.
-        clusterer = MiniBatchKMeans(n_clusters=n_clusters)#, random_state=10, max_iter=200)
+        clusterer = KMeans(n_clusters=n_clusters)
         cluster_labels = clusterer.fit_predict(X)
 
         # The silhouette_score gives the average value for all the samples.
@@ -131,3 +93,46 @@ def silhouette_analysis(X: np.array, min_clusters:int,max_clusters:int):
                      fontsize=14, fontweight='bold')
 
     plt.show()
+
+## code adaption from
+# https://github.com/duhaime/cluster-semantic-vectors/blob/master/cluster_vectors.py
+class autovivify_list(dict):
+  '''A pickleable version of collections.defaultdict'''
+  def __missing__(self, key):
+    '''Given a missing key, set initial value to an empty list'''
+    value = self[key] = []
+    return value
+
+  def __add__(self, x):
+    '''Override addition for numeric types when self is empty'''
+    if not self and isinstance(x, Number):
+      return x
+    raise ValueError
+
+  def __sub__(self, x):
+    '''Also provide subtraction method'''
+    if not self and isinstance(x, Number):
+      return -1 * x
+    raise ValueError
+
+def build_word_vector_matrix(vector_file, label_file, n_words):
+    '''Return the vectors and labels for the first n_words in vector file'''
+    numpy_arrays = []
+    labels_array = []
+    for c, v in enumerate(label_file):
+        labels_array.append(v)
+        numpy_arrays.append(vector_file[c])
+
+        if c == n_words:
+            return np.array( numpy_arrays ), labels_array
+
+    return np.array( numpy_arrays ), labels_array
+
+
+def find_word_clusters(labels_array, cluster_labels):
+  '''Return the set of words in each cluster'''
+  cluster_to_words = autovivify_list()
+  for c, i in enumerate(cluster_labels):
+    cluster_to_words[ i ].append(labels_array[c] )
+  return cluster_to_words
+
